@@ -1,0 +1,16 @@
+package com.ecommerce.orderservice.DTO;
+
+import java.util.List;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class OrderResponse {
+  private Long id;
+  private String orderNumber;
+  private List<OrderLineItemsDTO> orderLineItemsDTOList;
+}
