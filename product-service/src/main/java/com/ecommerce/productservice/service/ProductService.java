@@ -31,10 +31,12 @@ public class ProductService {
             .description(productRequest.getDescription())
             .price(productRequest.getPrice())
             .build();
-
-    productRepository.save(product);
-    log.info("Product " + product.getId() + " created.");
-    return mapper.map(product, ProductResponse.class);
+    if(product != null){
+      productRepository.save(product);
+      log.info("Product " + product.getId() + " created.");
+      return mapper.map(product, ProductResponse.class);
+    }
+    return null;
   }
 
   public List<ProductResponse> getAllProducts() {
