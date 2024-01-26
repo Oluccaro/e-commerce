@@ -6,6 +6,8 @@ import com.ecommerce.orderservice.DTO.OrderRequest;
 import com.ecommerce.orderservice.DTO.OrderResponse;
 import com.ecommerce.orderservice.service.OrderService;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +26,12 @@ public class OrderController {
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
+  @CircuitBreaker(name = "inventory", fallbackMethod = "handleCircuitOpen")
   public OrderResponse createOrder(@RequestBody OrderRequest orderRequest) throws Exception {
       return orderService.createOrder(orderRequest);
   }
   
+  public String handleCircuitOpen(OrderRequest orderRequest, RuntimeException runtimeException){
+    return "Something went wrong. Try again after some time";
+  }
 }
